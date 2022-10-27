@@ -1,0 +1,9 @@
+
+.ContactListItem {
+    display: flex;
+    margin-top: 8px;
+}
+
+.ContactBtnDel {
+    margin-left: 8px;
+}
