@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-import Phonebook from "./Phonebook";
+import ContactForm from "./ContactForm";
 import ContactList from "./ContactList";
 import initialContacts from './contacts.json'
+import Filter from "./Filter"
 
 class App extends Component {
   state = {
+    // contacts: [],
     contacts: initialContacts,
     filter: '',
-    name: '',
-    number: '',
-  }
+    // name: '',
+    // number: '',
+  };
 
   deleteContact = (contactId) => {
     this.setState(prevState => ({
@@ -17,15 +19,23 @@ class App extends Component {
     }));
   };
 
+  formSubmitHandler = data => {
+    console.log(data);
+  };
+
   render() {
     const { contacts } = this.state;
     return (
-      <>
-        <Phonebook />
-        <ContactList contacts={ contacts } onDeleteContact={this.deleteContact} />
-      </>
+      <div style={{ margin: '12px' }}>
+        <h1>Phonebook</h1>
+        <ContactForm onSubmit={this.formSubmitHandler} />{/* <ContactForm ... /> */}
+
+        <h2>Contacts</h2>
+        <Filter />        {/* <Filter ... /> */}
+        <ContactList contacts={contacts} onDeleteContact={this.deleteContact} />
+      </div>
     );
-  }
-}
+  };
+};
 
 export default App;
