@@ -20,18 +20,13 @@ class App extends Component {
   };
   
   formSubmitHandler = data => {
-    console.log(data);
-    // this.state.contacts.push(data);
-    console.log([      ...this.state.contacts, data    ]);
-    this.setState(prevState => ([
-      ...prevState.contacts, data
-    ]));
-    console.log(this.state.contacts);
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, data]
+    }));
   };
 
   render() {
     const { contacts } = this.state;
-    console.log(contacts);
     return (
       <div style={{ margin: '12px' }}>
         <h1>Phonebook</h1>
