@@ -2,31 +2,45 @@ import React from "react";
 import css from './ContactForm.module.css'
 import { nanoid } from 'nanoid';
 
-// import { nanoid } from 'nanoid'
-// model.id = nanoid() //=> "V1StGXR8_Z5jdHi6B-myT"
-
 class ContactForm extends React.Component {
     state = {
-        name: 'Name Names',
-        number: '123-456-789',
+        // name: 'Name Names',
+        // number: '123-456-789',
+        name: '',
+        number: '',
     }
 
     nameInputId = nanoid();
     numberInputId = nanoid();
 
-    // onAlert = name =>  {
-    //     window.alert(`${name} is already in contacts.`);
-    // }
+    onAlert = name =>  {
+        window.alert(`${name} is already in contacts.`);
+    }
 
     handleInputChange = event => {
         const { name, value } = event.currentTarget;
         this.setState({ [name]: value });
     }
 
+    checkContact = (name) => {
+        const { contacts } = this.props;
+        const normolizedName = name.toLowerCase();
+
+        return contacts.filter(contact =>
+            contact.name.toLowerCase().includes(normolizedName)
+        );
+    }
+
     handleSubmit = event => {
         event.preventDefault();
-        this.props.onSubmit({ id: nanoid(), ...this.state });
-        this.reset();
+        const { name } = this.state;
+
+        if (this.checkContact(name).length) {
+            this.onAlert(name);
+        } else {
+            this.props.onSubmit({ id: nanoid(), ...this.state });
+            this.reset();
+        }
     }
 
     reset = () => {
@@ -65,10 +79,7 @@ class ContactForm extends React.Component {
                          id={this.numberInputId}
                     />
                 </label>
-                <button
-                    type='submit'
-                    // onClick={() => this.onAlert("Vova") }
-                >Add contact</button>
+                <button type='submit'>Add contact</button>
             </form>
         );
     }

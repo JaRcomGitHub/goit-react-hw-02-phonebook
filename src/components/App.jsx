@@ -9,8 +9,6 @@ class App extends Component {
     // contacts: [],
     contacts: initialContacts,
     filter: '',
-    // name: '',
-    // number: '',
   };
 
   deleteContact = (contactId) => {
@@ -25,16 +23,31 @@ class App extends Component {
     }));
   };
 
+  changeFilter = event => {
+    this.setState({ filter: event.currentTarget.value });
+  };
+
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    const normolizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normolizedFilter)
+    );
+  }
+
   render() {
-    const { contacts } = this.state;
+    const { contacts, filter } = this.state;
+    const filteredContacts = this.getFilteredContacts();
+
     return (
-      <div style={{ margin: '12px' }}>
+      <div>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.formSubmitHandler} />{/* <ContactForm ... /> */}
+        <ContactForm contacts={contacts} onSubmit={this.formSubmitHandler} />
 
         <h2>Contacts</h2>
-        <Filter />        {/* <Filter ... /> */}
-        <ContactList contacts={contacts} onDeleteContact={this.deleteContact} />
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactList contacts={filteredContacts} onDeleteContact={this.deleteContact} />
       </div>
     );
   };
